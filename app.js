@@ -31,3 +31,91 @@ app.use((request, response, next)=>{
     app.use(cors())
     next()
 })
+
+const funcoes = require('./modulo/funcoes.js')
+
+//criando endpoint para retornar todos os estados
+app.get('/v1/lion-school/cursos', cors(), async function (request, response){
+
+    //pra conseguir fazer o teste, chama a função e retorna todos os estados
+    let cursos = funcoes.getlistarcursos()
+
+    //resposta da api com o json e o status code (dados se tiver conteúdo)
+    if(cursos){
+        response.status(200)
+        response.json(cursos)
+    }else{
+        response.status(404)
+        response.json({'status': 404, 'message': 'Não foram encontrados estados para retornar'})
+    }
+
+})
+app.get('/v1/lion-school/alunos', cors(), async function (request, response){
+
+    //pra conseguir fazer o teste, chama a função e retorna todos os estados
+    let alunos = funcoes.getlistaralunos()
+
+    //resposta da api com o json e o status code (dados se tiver conteúdo)
+    if(alunos){
+        response.status(200)
+        response.json(alunos)
+    }else{
+        response.status(404)
+        response.json({'status': 404, 'message': 'Não foram encontrados estados para retornar'})
+    }
+
+})
+
+//endpoint que retorna os dados de um estado filtrando pela sigla (via parametro)
+app.get('/v1/ion-school/alunos/:matricula', cors(), async function (request, response) {
+    //recebe o conteudo da variavel sigla que sera enviada na url da requisição
+    let matricula = request.params.matricula
+
+    //chama a função que irá receber a sigla e retornar os dados referente ao estado
+    let alunos = funcoes.getmatricula()
+
+    if(alunos){
+        response.status(200)
+        response.json(alunos)
+    }else{
+        response.status(404)
+        response.json({'status': 404, 'message': 'Não foi encontrado um estado'})
+    }
+})
+
+//outra forma de receber a sigla (query string)
+app.get('/v1/lion-school/alunos/cursos/:curso ', cors(), async function (request, response) {
+//recebe a variavel sigla atraves do modelo query string
+    let materia = request.query.curso
+
+    let dados = estadosCidades.getCapitalEstado(uf)
+
+    if(dados){
+        response.status(200)
+        response.json(dados)
+    }else{
+        response.status(404)
+        response.json({'status': 404, 'message': 'Não foi possível localizar o estado informado.'})
+    }
+})
+
+app.get('/v1/lion-school/alunos/filtro:status ', cors(), async function (request, response) {
+
+    let status = request.params.status
+
+    let dados = funcoes.getstatus
+
+    if(dados){
+        response.status(200)
+        response.json(dados)
+    }else{
+        response.status(404)
+        response.json({'status': 404, 'message': 'Não foi encontrada a região'})
+    }
+    
+})
+
+//configurando a porta que a api vai rodar, executa a api e faz com que fique aguardando novas aquisições
+app.listen('8080', function(){
+    console.log('API funcionando e aguardando requisições..')
+})
