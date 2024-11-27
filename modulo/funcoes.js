@@ -74,11 +74,11 @@ const getstatus = function(statuscurso){
         return status
     }
 }
-const getcursostatus= function (sigla,status) {
+const getcursostatus= function (sigla,statuscurso) {
     let cursoescolhido=String(sigla).toUpperCase()
-    let statusdocurso=String(status).toUpperCase()
-    let alunosfiltro=[]
     let status=false
+    let statusdocurso=String(statuscurso).toUpperCase()
+    let alunosfiltro=[]
     alunos.forEach(function (item) {
         item.curso.forEach(function(item2){
             if (String(item2.sigla).toUpperCase()==cursoescolhido) {
@@ -97,7 +97,6 @@ const getcursostatus= function (sigla,status) {
         return status
     }
 }
-
 const getconclusao= function(sigla, ano){
     let cursoescolhido=String(sigla).toUpperCase()
     let anoconclusao=String(ano).toUpperCase()
@@ -112,8 +111,18 @@ const getconclusao= function(sigla, ano){
         })
     })
     if (status==true) {
-        return anoconclusao
+        return alunosconclusao
     }else{
         return status
     }
+}
+console.log(getconclusao('ds','2024'))
+module.exports={
+    getconclusao,
+    getcursostatus,
+    getdsredes,
+    getlistaralunos,
+    getlistarcursos,
+    getmatricula,
+    getstatus
 }
